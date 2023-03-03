@@ -4,7 +4,7 @@ import { join } from 'path'
 export const grpcClientOptions: ClientOptions = {
   transport: Transport.GRPC,
   options: {
-    package: 'schedule',
-    protoPath: join(__dirname, './schedule/schedule.proto'),
+    package: 'appointment',
+    protoPath: join(__dirname, '../appointment/appointment.proto'),
   },
 }

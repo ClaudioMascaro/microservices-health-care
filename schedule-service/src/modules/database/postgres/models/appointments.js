@@ -1,9 +1,15 @@
 import { DataTypes } from 'sequelize'
 
-const tableName = 'DoctorAppointments'
+const tableName = 'Appointments'
 
 const attributes = {
-  // todo
+  doctor_id: DataTypes.INTEGER,
+  doctor_data: DataTypes.JSON,
+  start_time: DataTypes.DATE,
+  appointment_time: DataTypes.STRING,
+  company_id: DataTypes.STRING,
+  user_id: DataTypes.INTEGER,
+  user_data: DataTypes.JSON,
 }
 
 const options = {

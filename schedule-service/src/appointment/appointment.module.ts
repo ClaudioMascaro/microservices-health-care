@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common'
 import { ClientsModule } from '@nestjs/microservices'
 import { grpcClientOptions } from '../grpc-client.options'
-import { ScheduleController } from './schedule.controller'
+import { AppointmentController } from './appointment.controller'
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: 'SCHEDULE_PACKAGE',
+        name: 'APPOINTMENT_PACKAGE',
         ...grpcClientOptions,
       },
     ]),
   ],
-  controllers: [ScheduleController],
+  controllers: [AppointmentController],
 })
-export class ScheduleModule {}
+export class AppointmentModule {}

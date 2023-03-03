@@ -8,7 +8,7 @@ import { AppService } from './app.service'
   imports: [
     ClientsModule.register([
       {
-        name: 'SCHEDULE_PACKAGE',
+        name: 'APPOINTMENT_PACKAGE',
         ...grpcClientOptions,
       },
     ]),

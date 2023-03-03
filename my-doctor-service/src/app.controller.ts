@@ -1,12 +1,11 @@
-import { Controller, Post, Body, Param, Get } from '@nestjs/common'
-import { Observable, toArray } from 'rxjs'
+import { Controller, Post, Body, Param, Get, Query } from '@nestjs/common'
 import { AppService } from './app.service'
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly scheduleService: AppService,
+    private readonly appointmentService: AppService,
   ) {}
 
   @Post('/doctors')
@@ -14,17 +13,29 @@ export class AppController {
     return this.appService.affiliateDoctor({ params: body })
   }
 
-  @Get('/doctors/:id/schedules/next_available')
-  getNextAvailableDoctorSchedule(@Param('id') id: number): Observable<any> {
-    return this.scheduleService.findNextAvailableSchedule({ doctorId: id })
+  @Get('/doctors/:id/appointments/available')
+  findDoctorAvailableAppointments(
+    @Param('id') id: number,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
+  ): any {
+    return this.appointmentService
+      .findAvailableAppointments({
+        doctorId: id,
+        startDate,
+        endDate,
+      })
+      .pipe()
   }
 
-  @Get('/doctors/:id/schedules')
-  call(@Param('id') id: number): Observable<any> {
-    const scheduleStream = this.scheduleService.findAllAvailableSchedule({
+  @Post('/doctors/:id/appointments')
+  createAppointment(
+    @Param('id') id: number,
+    @Body('data') data: object,
+  ): Promise<any> {
+    return this.appointmentService.createAppointment({
       doctorId: id,
+      data,
     })
-
-    return scheduleStream.pipe(toArray())
   }
 }

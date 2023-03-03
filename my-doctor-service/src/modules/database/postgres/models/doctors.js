@@ -8,6 +8,7 @@ const attributes = {
   medical_license: DataTypes.STRING,
   license_type: DataTypes.STRING,
   company_id: DataTypes.ARRAY(DataTypes.STRING),
+  week_schedule: DataTypes.JSON,
 }
 
 const options = {

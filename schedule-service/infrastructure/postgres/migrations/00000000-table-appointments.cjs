@@ -1,4 +1,4 @@
-const tableName = 'Doctors'
+const tableName = 'Appointments'
 
 module.exports = {
   up(queryInterface, DataTypes) {
@@ -9,22 +9,28 @@ module.exports = {
         primaryKey: true,
       },
       company_id: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-      },
-      license_type: {
         type: DataTypes.STRING,
       },
-      medical_license: {
+      status: {
         type: DataTypes.STRING,
       },
-      specialty: {
-        type: DataTypes.STRING,
+      doctor_id: {
+        type: DataTypes.INTEGER,
       },
-      name: {
-        type: DataTypes.STRING,
-      },
-      week_schedule: {
+      doctor_data: {
         type: DataTypes.JSON,
+      },
+      user_id: {
+        type: DataTypes.INTEGER,
+      },
+      user_data: {
+        type: DataTypes.JSON,
+      },
+      start_time: {
+        type: DataTypes.DATE,
+      },
+      appointment_time: {
+        type: DataTypes.STRING,
       },
       created_at: {
         type: DataTypes.DATE,

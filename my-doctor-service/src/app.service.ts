@@ -3,25 +3,22 @@ import {
   Client,
   ClientGrpc,
   GrpcMethod,
-  GrpcStreamCall,
   Transport,
 } from '@nestjs/microservices'
 import { join } from 'path'
-import { Observable, ReplaySubject, Subject, toArray } from 'rxjs'
 
 import core from './core/index'
-import { AvailableSchedule } from './schedule/interfaces/schedule.interface'
-import { ScheduleByDoctorId } from './schedule/interfaces/scheduleByDoctorId.interface'
+import { AvailableAppointment } from './appointment/interfaces/appointment.interface'
+import { AppointmentByDoctorId } from './appointment/interfaces/appointmentList.interface'
+import { Observable } from 'rxjs'
 
 const { affiliateDoctor } = core
 
-interface ScheduleService {
-  findNextAvailableSchedule(
-    data: ScheduleByDoctorId,
-  ): Observable<AvailableSchedule>
-  findAllAvailableSchedule(
-    upstream: Observable<ScheduleByDoctorId>,
-  ): Observable<AvailableSchedule>
+interface AppointmentService {
+  findAvailableAppointments(
+    data: AppointmentByDoctorId,
+  ): Observable<AvailableAppointment[]>
+  createAppointment(data: AvailableAppointment): Promise<AvailableAppointment>
 }
 
 @Injectable()
@@ -29,33 +26,40 @@ export class AppService implements OnModuleInit {
   @Client({
     transport: Transport.GRPC,
     options: {
-      package: 'schedule',
-      protoPath: join(__dirname, '../schedule/schedule.proto'),
+      package: 'appointment',
+      protoPath: join(__dirname, '../appointment/appointment.proto'),
     },
   })
   client: ClientGrpc
 
-  public scheduleService: ScheduleService
+  public appointmentService: AppointmentService
 
   onModuleInit() {
-    this.scheduleService =
-      this.client.getService<ScheduleService>('ScheduleService')
+    this.appointmentService =
+      this.client.getService<AppointmentService>('AppointmentService')
   }
 
-  findNextAvailableSchedule({ doctorId }): Observable<AvailableSchedule> {
-    return this.scheduleService.findNextAvailableSchedule({ doctorId })
+  @GrpcMethod()
+  findAvailableAppointments({
+    doctorId,
+    startDate,
+    endDate,
+  }): Observable<AvailableAppointment[]> {
+    return this.appointmentService.findAvailableAppointments({
+      doctorId,
+      startDate,
+      endDate,
+    })
   }
 
-  @GrpcStreamCall()
-  findAllAvailableSchedule({ doctorId }): Observable<AvailableSchedule> {
-    const scheduleRequest$ = new ReplaySubject<ScheduleByDoctorId>()
+  @GrpcMethod()
+  async createAppointment({ doctorId, data }): Promise<AvailableAppointment> {
+    const dataObject = {
+      doctorId,
+      ...data,
+    }
 
-    scheduleRequest$.next({ doctorId })
-    scheduleRequest$.complete()
-
-    return this.scheduleService.findAllAvailableSchedule(
-      scheduleRequest$.asObservable(),
-    )
+    return await this.appointmentService.createAppointment(dataObject)
   }
 
   affiliateDoctor({ params }): Promise<any> {

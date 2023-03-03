@@ -1,10 +1,10 @@
-function updateDoctorScheduleFactory({
-  doctorScheduleRepository,
+function updateDoctorAppointmentFactory({
+  doctorAppointmentRepository,
   // high level dependencies
 }) {
   return async function execute({ doctorId, appointment, params }) {
     try {
-      return await doctorScheduleRepository.updateSchedule({
+      return await doctorAppointmentRepository.updateAppointment({
         doctorId,
         appointment,
         params,
@@ -15,4 +15,4 @@ function updateDoctorScheduleFactory({
   }
 }
 
-export default updateDoctorScheduleFactory
+export default updateDoctorAppointmentFactory

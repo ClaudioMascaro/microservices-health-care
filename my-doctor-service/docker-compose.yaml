@@ -1,0 +1,35 @@
+version: '2.3'
+
+services:
+  doctor-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: doctor_service
+    working_dir: /code
+    command: "npm start:dev"
+    volumes:
+      - ./:/code
+      - /code/node_modules
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    networks: 
+      - health-network      
+
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+       - 5432:5432
+    networks: 
+      - health-network
+
+networks:
+  health-network:
+    external: true

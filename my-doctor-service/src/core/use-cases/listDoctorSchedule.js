@@ -1,5 +1,5 @@
-function getDoctorScheduleFactory({
-  doctorScheduleRepository,
+function getDoctorAppointmentFactory({
+  doctorAppointmentRepository,
   // high level dependencies
 }) {
   return async function execute({
@@ -8,7 +8,7 @@ function getDoctorScheduleFactory({
     // another params needed
   }) {
     try {
-      return await doctorScheduleRepository.getSchedule({
+      return await doctorAppointmentRepository.getAppointment({
         doctorId,
         queryParams,
       })
@@ -18,4 +18,4 @@ function getDoctorScheduleFactory({
   }
 }
 
-export default getDoctorScheduleFactory
+export default getDoctorAppointmentFactory
