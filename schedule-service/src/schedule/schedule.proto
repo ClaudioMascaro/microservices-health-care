@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package schedule;
+
+service ScheduleService {
+  rpc FindNextAvailableSchedule (ScheduleByDoctorId) returns (AvailableSchedule);
+  rpc FindAllAvailableSchedule (stream ScheduleByDoctorId) returns (stream AvailableSchedule);
+}
+
+message ScheduleByDoctorId {
+  int32 doctorId = 1;
+}
+
+message AvailableSchedule {
+  int32 id = 1;
+  string startTime = 2;
+  string date = 3;
+}
