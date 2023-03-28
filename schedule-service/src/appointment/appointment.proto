@@ -14,14 +14,8 @@ message AppointmentByDoctorId {
 }
 
 message AvailableAppointment {
-  optional string doctorId = 1;
-  optional string doctorData = 2;
-  optional string userId = 3;
-  optional string userdata = 4;
-  optional string startTime = 5;
-  optional string appointmentTime = 6;
-  optional string companyId = 7;
-  optional string id = 8;
+  optional int32 id = 1;
+  optional string payload = 2;
 }
 
 message AppointmentArray {

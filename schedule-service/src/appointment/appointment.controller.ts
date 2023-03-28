@@ -1,10 +1,10 @@
 import { Controller, Inject, OnModuleInit } from '@nestjs/common'
-import { ClientGrpc, GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices'
+import { ClientGrpc, GrpcMethod } from '@nestjs/microservices'
 import { AppointmentByDoctorId } from './interfaces/appointmentList.interface'
 import { AvailableAppointment } from './interfaces/appointment.interface'
 
 import core from '../core/index'
-import { Observable, Subject } from 'rxjs'
+import { Observable } from 'rxjs'
 
 const { createAppointment, findAvailableAppointments, updateAppointment } = core
 
@@ -34,12 +34,12 @@ export class AppointmentController implements OnModuleInit {
   async findAvailableAppointments(
     data: AppointmentByDoctorId,
   ): Promise<object> {
-    const { doctorId, startDate, endDate } = data
+    const { doctorId, startDate = null, endDate = null } = data
 
     const appointments = await findAvailableAppointments({
       doctorId,
-      startDate: new Date(startDate),
-      endDate: new Date(endDate),
+      startDate: startDate,
+      endDate: endDate,
     })
 
     return { appointments }
@@ -50,10 +50,6 @@ export class AppointmentController implements OnModuleInit {
     data: AvailableAppointment,
   ): Promise<AvailableAppointment> {
     const createdAppointment = await createAppointment(data)
-    console.log(
-      '🚀 ~ file: appointment.controller.ts:55 ~ AppointmentController ~ createdAppointment:',
-      createdAppointment,
-    )
 
     return createdAppointment.dataValues
   }

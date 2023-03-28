@@ -19,13 +19,11 @@ export class AppController {
     @Query('startDate') startDate: string,
     @Query('endDate') endDate: string,
   ): any {
-    return this.appointmentService
-      .findAvailableAppointments({
-        doctorId: id,
-        startDate,
-        endDate,
-      })
-      .pipe()
+    return this.appointmentService.findAvailableAppointments({
+      doctorId: id,
+      startDate,
+      endDate,
+    })
   }
 
   @Post('/doctors/:id/appointments')

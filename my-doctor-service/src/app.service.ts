@@ -10,14 +10,14 @@ import { join } from 'path'
 import core from './core/index'
 import { AvailableAppointment } from './appointment/interfaces/appointment.interface'
 import { AppointmentByDoctorId } from './appointment/interfaces/appointmentList.interface'
-import { Observable } from 'rxjs'
+import { Observable, firstValueFrom } from 'rxjs'
 
 const { affiliateDoctor } = core
 
 interface AppointmentService {
   findAvailableAppointments(
     data: AppointmentByDoctorId,
-  ): Observable<AvailableAppointment[]>
+  ): Observable<AvailableAppointment>
   createAppointment(data: AvailableAppointment): Promise<AvailableAppointment>
 }
 
@@ -40,16 +40,25 @@ export class AppService implements OnModuleInit {
   }
 
   @GrpcMethod()
-  findAvailableAppointments({
+  async findAvailableAppointments({
     doctorId,
     startDate,
     endDate,
-  }): Observable<AvailableAppointment[]> {
-    return this.appointmentService.findAvailableAppointments({
-      doctorId,
-      startDate,
-      endDate,
-    })
+  }): Promise<AvailableAppointment[]> {
+    const { appointments } = await firstValueFrom(
+      this.appointmentService.findAvailableAppointments({
+        doctorId,
+        startDate,
+        endDate,
+      }),
+    )
+
+    const parsedAppointments = appointments.map(({ id, payload }) => ({
+      id,
+      ...JSON.parse(payload),
+    }))
+
+    return Promise.resolve(parsedAppointments)
   }
 
   @GrpcMethod()

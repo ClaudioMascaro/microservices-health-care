@@ -6,4 +6,6 @@ export interface AvailableAppointment {
   startTime: string
   appointmentTime: string
   companyId: string
+  id?: number
+  payload?: string
 }

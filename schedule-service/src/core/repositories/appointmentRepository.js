@@ -1,5 +1,38 @@
 import { Op } from 'sequelize'
 
+const buildQuery = (startDate, endDate, doctorId) => {
+  if (!startDate && !endDate) {
+    throw new Error('missing filters')
+  }
+
+  const getStartTimeRange = () => {
+    if (!startDate) {
+      return {
+        [Op.lte]: endDate,
+      }
+    }
+
+    if (!endDate) {
+      return {
+        [Op.gte]: startDate,
+      }
+    }
+
+    return {
+      [Op.gte]: startDate,
+      [Op.lte]: endDate,
+    }
+  }
+
+  return {
+    raw: true,
+    where: {
+      start_time: getStartTimeRange(),
+      doctor_id: doctorId,
+    },
+  }
+}
+
 function AppointmentRepositoryFactory({ postgresDatabase }) {
   const { Appointments } = postgresDatabase.sequelize.models
 
@@ -15,18 +48,8 @@ function AppointmentRepositoryFactory({ postgresDatabase }) {
     try {
       const { startDate, endDate, doctorId } = queryParams
 
-      const query = {
-        raw: true,
-        where: {
-          start_time: {
-            [Op.gte]: startDate,
-            [Op.lte]: endDate,
-          },
-          doctor_id: doctorId,
-        },
-      }
-
-      return await Appointments.findAll({ raw: true })
+      const query = buildQuery(startDate, endDate, doctorId)
+      return await Appointments.findAll(query, { raw: true })
     } catch (error) {
       throw error
     }
