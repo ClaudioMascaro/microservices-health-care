@@ -1,14 +1,14 @@
-import modules from '../modules/index'
+import doctorRepositoryFactory from './repositories/doctorRepository.js'
+import affiliateDoctorFactory from './use-cases/affiliateDoctor.js'
 
-const { postgresDatabase } = modules
+export default function core ({ modules }) {
+  const { postgresDatabase } = modules
 
-import doctorRepositoryFactory from './repositories/doctorRepository'
-import affiliateDoctorFactory from './use-cases/affiliateDoctor'
+  const doctorRepository = doctorRepositoryFactory({ postgresDatabase })
 
-const doctorRepository = doctorRepositoryFactory({ postgresDatabase })
+  const affiliateDoctor = affiliateDoctorFactory({ doctorRepository })
 
-const affiliateDoctor = affiliateDoctorFactory({ doctorRepository })
-
-export default {
-  affiliateDoctor,
+  return {
+    affiliateDoctor,
+  }
 }

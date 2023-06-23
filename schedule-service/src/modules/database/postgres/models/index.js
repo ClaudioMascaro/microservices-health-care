@@ -1,4 +1,4 @@
-import appointmentsModel from './appointments'
+import appointmentsModel from './appointments.js'
 
 export default {
   appointmentsModel,
