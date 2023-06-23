@@ -1,6 +1,6 @@
-import app from './app'
-import postgres from './database/postgres'
-import env from './env'
+import app from './app.js'
+import postgres from './database/postgres.js'
+import env from './env.js'
 
 export default {
   app,

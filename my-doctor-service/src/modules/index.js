@@ -1,14 +1,15 @@
-import config from '../../config/index'
+import config from '../../config/index.js'
 
-import loggerFactory from './logger/index'
-import postgresDatabaseFactory from './database/postgres/index'
+import createLogger from './logger/logger.cjs'
+import postgresDatabaseFactory from './database/postgres/index.js'
 
 const { postgres } = config
 
-const logger = loggerFactory({ config })
+const { httpLogger, logger } = createLogger({ config })
 const postgresDatabase = postgresDatabaseFactory({ config: postgres, logger })
 
 export default {
+  httpLogger,
   logger,
   postgresDatabase,
 }

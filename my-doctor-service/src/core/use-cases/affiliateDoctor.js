@@ -12,6 +12,7 @@ function affiliateDoctorFactory({
       const affiliatedDoctor = await doctorRepository.create({
         params,
       })
+      console.log("🚀 ~ file: affiliateDoctor.js:15 ~ affiliatedDoctor:", affiliatedDoctor)
 
       return {
         message: 'Success affiliating a new professional',

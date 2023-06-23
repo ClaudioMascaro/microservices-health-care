@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize'
 
-import rawModels from './models'
+import rawModels from './models/index.js'
 
 function postgresDatabaseFactory({ config, logger }) {
   const baseConfig = {

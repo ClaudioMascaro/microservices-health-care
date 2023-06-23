@@ -1,7 +1,8 @@
-import config from '../../config/index'
+import config from '../../config/index.js'
 
-import loggerFactory from './logger/index'
-import postgresDatabaseFactory from './database/postgres/index'
+import loggerFactory from './logger/index.cjs'
+import postgresDatabaseFactory from './database/postgres/index.js'
+import grpcServerFactory from './grpc/index.js'
 
 const { postgres } = config
 
@@ -11,4 +12,5 @@ const postgresDatabase = postgresDatabaseFactory({ config: postgres, logger })
 export default {
   logger,
   postgresDatabase,
+  grpcServerFactory,
 }
