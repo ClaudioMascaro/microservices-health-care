@@ -49,10 +49,6 @@ function AppointmentRepositoryFactory({ postgresDatabase }) {
       const { startDate, endDate, doctorId } = queryParams
 
       const query = buildQuery(startDate, endDate, doctorId)
-      console.log(
-        '🚀 ~ file: appointmentRepository.js:52 ~ listByDoctorId ~ query:',
-        query,
-      )
       return await Appointments.findAll(query, { raw: true })
     } catch (error) {
       throw error

@@ -22,7 +22,7 @@ function wrapAction (action) {
 
       res.body = body
 
-      res.status(statusCode).send(body)
+      res.status(statusCode).json(body)
     } catch (error) {
       next(error)
     }
