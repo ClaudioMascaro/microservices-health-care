@@ -1,15 +1,19 @@
-function createAppointmentFactory({ appointmentRepository }) {
-  return async function execute({
-    companyId,
-    doctorId,
-    doctorData,
-    userId,
-    userData,
-    startTime,
-    appointmentTime,
-  }) {
+function createAppointmentFactory({ appointmentRepository, logger }) {
+  return async function execute({ request }, callback) {
     try {
-      return await appointmentRepository.create({
+      const { payload } = request
+
+      const {
+        companyId,
+        doctorId,
+        doctorData,
+        userId,
+        userData,
+        startTime,
+        appointmentTime,
+      } = JSON.parse(payload)
+      
+      const createdAppointment = await appointmentRepository.create({
         params: {
           company_id: companyId,
           doctor_id: doctorId,
@@ -20,6 +24,18 @@ function createAppointmentFactory({ appointmentRepository }) {
           appointment_time: appointmentTime,
         },
       })
+
+      logger.info({
+        message: 'Appointment created',
+        doctor_id: createdAppointment.doctor_id,
+        appointment_id: createdAppointment.id,
+      })
+
+      return callback(null, {
+        id: createdAppointment.id,
+        payload: JSON.stringify(createdAppointment),
+      })
+      return
     } catch (error) {
       throw error
     }

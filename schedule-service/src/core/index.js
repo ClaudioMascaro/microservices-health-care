@@ -1,6 +1,6 @@
 import modules from '../modules/index.js'
 
-const { postgresDatabase } = modules
+const { postgresDatabase, logger } = modules
 
 import appointmentRepositoryFactory from './repositories/appointmentRepository.js'
 import createAppointmentFactory from './use-cases/createAppointment.js'
@@ -9,7 +9,7 @@ import updateAppointmentFactory from './use-cases/updateAppointment.js'
 
 const appointmentRepository = appointmentRepositoryFactory({ postgresDatabase })
 
-const createAppointment = createAppointmentFactory({ appointmentRepository })
+const createAppointment = createAppointmentFactory({ appointmentRepository, logger })
 
 const findAllAppointments = findAllAppointmentsFactory({
   appointmentRepository,

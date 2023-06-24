@@ -19,7 +19,7 @@ function grpcServerFactory({ core, logger }) {
 
   const server = new grpc.Server()
 
-  server.addService(appointment.AppointmentService.service, core)
+  server.addService(appointment.AppointmentService.service, { CreateAppointment: core.createAppointment })
 
   async function start() {
     server.bindAsync(

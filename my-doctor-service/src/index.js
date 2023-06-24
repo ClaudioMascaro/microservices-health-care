@@ -3,11 +3,13 @@ import modules from './modules/index.js'
 import httpServerFactory from './modules/http/server.js'
 import routesFactory from './modules/http/routes/index.js'
 import controllersFactory from './modules/http/controllers/index.js'
+import servicesFactory from './services/index.js'
 
 import core from './core/index.js'
 
 const controllers = controllersFactory({ core: core({ modules }) })
-const routes = routesFactory({ controllers })
+const services = servicesFactory({ grpcClient: modules.grpcClient })
+const routes = routesFactory({ controllers, services })
 
 const { logger, postgresDatabase, httpLogger } = modules
 
