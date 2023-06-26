@@ -1,5 +1,5 @@
-import config from '../../config'
-import createLogger from './logger'
+import config from '../../../config/index.js'
+import createLogger from './logger.cjs'
 
 const {
   logger,

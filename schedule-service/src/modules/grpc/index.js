@@ -4,9 +4,9 @@ import path from 'path'
 
 const dirname = path.dirname(new URL(import.meta.url).pathname)
 
-const PROTO_PATH = path.join(dirname , './protos/appointment.proto')
+const PROTO_PATH = path.join(dirname, './protos/appointment.proto')
 
-function grpcServerFactory({ core, logger }) {
+function grpcServerFactory ({ core, logger }) {
   const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     keepCase: true,
     longs: String,
@@ -21,13 +21,13 @@ function grpcServerFactory({ core, logger }) {
 
   server.addService(appointment.AppointmentService.service, core)
 
-  async function start() {
+  async function start () {
     server.bindAsync(
       '0.0.0.0:50051',
       grpc.ServerCredentials.createInsecure(),
       () => {
         server.start()
-      }
+      },
     )
 
     logger.info({
@@ -35,7 +35,7 @@ function grpcServerFactory({ core, logger }) {
     })
   }
 
-  async function stop() {
+  async function stop () {
     server.forceShutdown()
 
     logger.info({
@@ -45,7 +45,7 @@ function grpcServerFactory({ core, logger }) {
 
   return {
     start,
-    stop
+    stop,
   }
 }
 

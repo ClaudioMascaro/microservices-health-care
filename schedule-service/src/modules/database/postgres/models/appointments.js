@@ -19,7 +19,7 @@ const options = {
   underscored: true,
 }
 
-function define(database) {
+function define (database) {
   const model = database.define(tableName, attributes, options)
 
   return model

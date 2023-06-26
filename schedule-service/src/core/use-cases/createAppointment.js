@@ -1,5 +1,5 @@
-function createAppointmentFactory({ appointmentRepository, logger }) {
-  return async function execute({ request }, callback) {
+function createAppointmentFactory ({ appointmentRepository, logger }) {
+  return async function execute ({ request }, callback) {
     try {
       const { payload } = request
 
@@ -12,7 +12,7 @@ function createAppointmentFactory({ appointmentRepository, logger }) {
         startTime,
         appointmentTime,
       } = JSON.parse(payload)
-      
+
       const createdAppointment = await appointmentRepository.create({
         params: {
           company_id: companyId,
@@ -36,7 +36,7 @@ function createAppointmentFactory({ appointmentRepository, logger }) {
         payload: JSON.stringify(createdAppointment),
       })
     } catch (error) {
-      throw error
+      throw new Error('todo')
     }
   }
 }

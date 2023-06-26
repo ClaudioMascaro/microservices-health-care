@@ -1,12 +1,12 @@
-function updateAppointmentFactory({ appointmentRepository }) {
-  return async function execute({ params, appointmentId }) {
+function updateAppointmentFactory ({ appointmentRepository }) {
+  return async function execute ({ params, appointmentId }) {
     try {
       return await appointmentRepository.update({
         params,
         appointmentId,
       })
     } catch (error) {
-      throw error
+      throw new Error('todo')
     }
   }
 }

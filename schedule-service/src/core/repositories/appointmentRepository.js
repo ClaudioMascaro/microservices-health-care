@@ -33,29 +33,29 @@ const buildQuery = (startDate, endDate, doctorId) => {
   }
 }
 
-function AppointmentRepositoryFactory({ postgresDatabase }) {
+function AppointmentRepositoryFactory ({ postgresDatabase }) {
   const { Appointments } = postgresDatabase.sequelize.models
 
-  async function create({ params }) {
+  async function create ({ params }) {
     try {
       return await Appointments.create(params)
     } catch (error) {
-      throw error
+      throw new Error('todo')
     }
   }
 
-  async function listByDoctorId({ queryParams }) {
+  async function listByDoctorId ({ queryParams }) {
     try {
       const { startDate, endDate, doctorId } = queryParams
 
       const query = buildQuery(startDate, endDate, doctorId)
       return await Appointments.findAll(query, { raw: true })
     } catch (error) {
-      throw error
+      throw new Error('todo')
     }
   }
 
-  async function update({ params, appointmentId }) {
+  async function update ({ params, appointmentId }) {
     try {
       const query = {
         where: {
@@ -65,7 +65,7 @@ function AppointmentRepositoryFactory({ postgresDatabase }) {
 
       return await Appointments.findAll(params, query)
     } catch (error) {
-      throw error
+      throw new Error('todo')
     }
   }
 

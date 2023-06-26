@@ -10,16 +10,15 @@ function doctorsRouterFactory ({ Router, doctorController }) {
 
   doctorsRouter.post(
     '/doctors/:id/appointments',
-    wrapAction(doctorController.createAppointment)
+    wrapAction(doctorController.createAppointment),
   )
 
   doctorsRouter.get(
     '/doctors/:id/appointments',
-    wrapAction(doctorController.findAllAppointments)
+    wrapAction(doctorController.findAllAppointments),
   )
 
   return doctorsRouter
 }
-
 
 export default doctorsRouterFactory

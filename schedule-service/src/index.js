@@ -11,8 +11,8 @@ const { logger, grpcServerFactory, postgresDatabase } = modules
 
 const grpcServer = grpcServerFactory({ core, logger })
 
-function applicationFactory() {
-  async function start() {
+function applicationFactory () {
+  async function start () {
     try {
       logger.info({
         message: 'Starting application',
@@ -32,7 +32,7 @@ function applicationFactory() {
     }
   }
 
-  async function stop() {
+  async function stop () {
     try {
       logger.info({
         message: 'Stopping application',

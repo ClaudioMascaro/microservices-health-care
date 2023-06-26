@@ -1,16 +1,15 @@
-function affiliateDoctorFactory({
+function affiliateDoctorFactory ({
   doctorRepository,
 }) {
-  return async function execute({
+  return async function execute ({
     params,
   }) {
     try {
       return await doctorRepository.create({
         params,
       })
-
     } catch (error) {
-      throw error
+      throw new Error('todo')
     }
   }
 }

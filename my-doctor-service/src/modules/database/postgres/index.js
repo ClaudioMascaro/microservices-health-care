@@ -2,7 +2,7 @@ import Sequelize from 'sequelize'
 
 import rawModels from './models/index.js'
 
-function postgresDatabaseFactory({ config, logger }) {
+function postgresDatabaseFactory ({ config, logger }) {
   const baseConfig = {
     database: config.database,
     dialect: config.dialect,
@@ -24,7 +24,7 @@ function postgresDatabaseFactory({ config, logger }) {
 
   const database = new Sequelize(baseConfig)
 
-  function setupDatabase() {
+  function setupDatabase () {
     const defineInstance = (model) => ({
       model,
       instance: model.define(database),
@@ -46,7 +46,7 @@ function postgresDatabaseFactory({ config, logger }) {
     throw error
   }
 
-  async function start() {
+  async function start () {
     try {
       logger.info({ message: 'Attempting database authentication' })
       await database.authenticate()
@@ -62,7 +62,7 @@ function postgresDatabaseFactory({ config, logger }) {
     }
   }
 
-  async function stop() {
+  async function stop () {
     try {
       logger.info({ message: 'Stopping database' })
       await database.close()

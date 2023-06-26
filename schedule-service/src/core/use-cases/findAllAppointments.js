@@ -1,5 +1,5 @@
-function findAllAppointmentsFactory({ appointmentRepository }) {
-  return async function execute({ request }, callback) {
+function findAllAppointmentsFactory ({ appointmentRepository }) {
+  return async function execute ({ request }, callback) {
     try {
       const { params } = request
 
@@ -13,13 +13,14 @@ function findAllAppointmentsFactory({ appointmentRepository }) {
         },
       })
 
-      return callback(null, { appointments: appointments.map((appointment) => ({
-        id: appointment.id,
-        payload: JSON.stringify(appointment),
-        }))
+      return callback(null, {
+        appointments: appointments.map((appointment) => ({
+          id: appointment.id,
+          payload: JSON.stringify(appointment),
+        })),
       })
     } catch (error) {
-      throw error
+      throw new Error('todo')
     }
   }
 }

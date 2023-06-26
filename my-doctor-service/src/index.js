@@ -20,8 +20,8 @@ const httpServer = httpServerFactory({
   routes,
 })
 
-function applicationFactory() {
-  async function start() {
+function applicationFactory () {
+  async function start () {
     try {
       logger.info({
         message: 'Starting application',
@@ -41,7 +41,7 @@ function applicationFactory() {
     }
   }
 
-  async function stop() {
+  async function stop () {
     try {
       logger.info({
         message: 'Stopping application',

@@ -8,10 +8,10 @@ export default function doctorControllerFactory ({ affiliateDoctor, appointmentS
     }
   }
 
-  async function createAppointment({ params, body }) {
-    const { id: doctorId } = params 
+  async function createAppointment ({ params, body }) {
+    const { id: doctorId } = params
 
-    const createdAppointment = await appointmentService.createAppointment({ 
+    const createdAppointment = await appointmentService.createAppointment({
       appointment: {
         doctorId,
         ...body,
@@ -24,13 +24,15 @@ export default function doctorControllerFactory ({ affiliateDoctor, appointmentS
     }
   }
 
-  async function findAllAppointments({ params, query }) {
+  async function findAllAppointments ({ params, query }) {
     const { id: doctorId } = params
 
-    const appointments = await appointmentService.findAllAppointments({ params: {
-      doctorId,
-      ...query,
-    } })
+    const appointments = await appointmentService.findAllAppointments({
+      params: {
+        doctorId,
+        ...query,
+      },
+    })
 
     return {
       body: appointments.map(({ payload }) => ({ ...payload })),
@@ -42,5 +44,5 @@ export default function doctorControllerFactory ({ affiliateDoctor, appointmentS
     createAppointment,
     affiliate,
     findAllAppointments,
-  } 
+  }
 }

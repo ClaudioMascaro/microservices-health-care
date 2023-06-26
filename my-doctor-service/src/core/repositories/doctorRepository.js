@@ -1,11 +1,11 @@
-function doctorRepositoryFactory({ postgresDatabase }) {
+function doctorRepositoryFactory ({ postgresDatabase }) {
   const { Doctors } = postgresDatabase.sequelize.models
 
-  async function create({ params }) {
+  async function create ({ params }) {
     try {
       return await Doctors.create(params)
     } catch (error) {
-      throw error
+      throw new Error('todo')
     }
   }
 
