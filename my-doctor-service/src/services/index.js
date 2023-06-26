@@ -1,9 +1,12 @@
 import AppointmentServiceFactory from "./appointmentService.js"
 
-export default function servicesFactory({ grpcClient }) {
-  const { createAppointment } = grpcClient
+export default function servicesFactory({ grpcServices }) {
+  const { createAppointment, findAllAppointments } = grpcServices
 
-  const appointmentService = AppointmentServiceFactory({ appointmentCreate: createAppointment })
+  const appointmentService = AppointmentServiceFactory({ 
+    create: createAppointment,
+    findAll: findAllAppointments,
+  })
 
   return {
     appointmentService

@@ -7,9 +7,9 @@ import servicesFactory from './services/index.js'
 
 import core from './core/index.js'
 
-const controllers = controllersFactory({ core: core({ modules }) })
-const services = servicesFactory({ grpcClient: modules.grpcClient })
-const routes = routesFactory({ controllers, services })
+const services = servicesFactory({ grpcServices: modules.grpcClient })
+const controllers = controllersFactory({ core: core({ modules }), services })
+const routes = routesFactory({ controllers })
 
 const { logger, postgresDatabase, httpLogger } = modules
 

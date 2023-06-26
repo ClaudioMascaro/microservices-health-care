@@ -3,14 +3,12 @@ syntax = "proto3";
 package appointment;
 
 service AppointmentService {
-  rpc FindAllAppointments (AppointmentByDoctorId) returns (AppointmentArray);
+  rpc FindAllAppointments (AppointmentByDoctorId) returns (AppointmentList);
   rpc CreateAppointment (AvailableAppointment) returns (AvailableAppointment);
 }
 
 message AppointmentByDoctorId {
-  string doctorId = 1;
-  string startDate = 2;
-  string endDate = 3;
+  string params = 1;
 }
 
 message AvailableAppointment {
@@ -18,6 +16,6 @@ message AvailableAppointment {
   optional string payload = 2;
 }
 
-message AppointmentArray {
+message AppointmentList {
   repeated AvailableAppointment appointments = 1;
 }
