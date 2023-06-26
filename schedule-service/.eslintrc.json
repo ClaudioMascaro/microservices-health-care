@@ -1,21 +1,28 @@
 {
-  "env": {
-      "module": true,
-      "es2020": true,
-      "node": true,
-      "jest": true
-  },
   "extends": [
       "airbnb-base"
   ],
   "parserOptions": {
-      "ecmaVersion": 11
+      "ecmaVersion": "latest"
   },
   "rules": {
       "semi": [2, "never"],
       "no-multiple-empty-lines": ["error", { "max": 1 }],
       "space-before-function-paren": [2, "always"],
       "max-params": ["error", { "max": 4 }],
-      "no-console": 2
+      "no-console": 2,
+      "import/extensions": [
+        0,
+        "ignorePackages",
+        {
+          "js": "never",
+          "jsx": "never",
+          "ts": "never",
+          "tsx": "never"
+        }
+     ]
+  },
+  "settings": {
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx", ".cjs"]
   }
 }

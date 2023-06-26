@@ -1,4 +1,4 @@
-import doctorControllerFactory from "./doctors.js"
+import doctorControllerFactory from './doctors.js'
 
 export default function controllersFactory ({ core, services }) {
   const { affiliateDoctor } = core
@@ -8,6 +8,6 @@ export default function controllersFactory ({ core, services }) {
   const doctorController = doctorControllerFactory({ affiliateDoctor, appointmentService })
 
   return {
-    doctorController
+    doctorController,
   }
 }

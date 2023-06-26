@@ -9,7 +9,7 @@ export default function routesFactory ({ controllers }) {
   const doctorsRouter = doctorsRouterFactory({ Router, doctorController })
 
   router.use('/', [
-    doctorsRouter
+    doctorsRouter,
   ])
 
   return router
