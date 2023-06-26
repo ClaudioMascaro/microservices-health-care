@@ -19,7 +19,7 @@ export default function grpcClientFactory ({ logger }) {
 
   const client = new appointmentProto.AppointmentService('localhost:50051', grpc.credentials.createInsecure())
 
-  async function createAppointment({ appointment }) {
+  async function createAppointment(appointment) {
     return new Promise((resolve, reject) => {
       client.CreateAppointment(appointment, (error, response) => {
       if (error) {
@@ -34,9 +34,27 @@ export default function grpcClientFactory ({ logger }) {
       resolve({ id: response.id,payload: JSON.parse(response.payload) })
       })
     })
-}
+  }
+
+  async function findAllAppointments(params) {
+    return new Promise((resolve, reject) => {
+      client.FindAllAppointments(params, (error, { appointments }) => {
+      if (error) {
+        logger.error({
+          message: 'Unexpected error finding appointments',
+          error: error.message,
+          stack: error.stack?.split('\n'),
+        })
+        reject(error)
+      }
+
+      resolve(appointments.map(({ id, payload }) => ({ id, payload: JSON.parse(payload) })))
+      })
+    })
+  }
 
   return {
     createAppointment,
+    findAllAppointments,
   }
 }

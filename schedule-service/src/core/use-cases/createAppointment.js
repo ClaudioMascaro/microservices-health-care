@@ -35,7 +35,6 @@ function createAppointmentFactory({ appointmentRepository, logger }) {
         id: createdAppointment.id,
         payload: JSON.stringify(createdAppointment),
       })
-      return
     } catch (error) {
       throw error
     }

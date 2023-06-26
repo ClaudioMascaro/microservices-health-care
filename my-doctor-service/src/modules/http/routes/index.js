@@ -1,13 +1,12 @@
 import { Router } from 'express'
 import doctorsRouterFactory from './doctors.js'
 
-export default function routesFactory ({ controllers, services }) {
+export default function routesFactory ({ controllers }) {
   const router = Router()
 
-  const { affiliateController } = controllers
-  const { appointmentService } = services
+  const { doctorController } = controllers
 
-  const doctorsRouter = doctorsRouterFactory({ Router, affiliateController, appointmentService })
+  const doctorsRouter = doctorsRouterFactory({ Router, doctorController })
 
   router.use('/', [
     doctorsRouter

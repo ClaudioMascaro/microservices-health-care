@@ -1,16 +1,21 @@
 import wrapAction from '../wrapAction.js'
 
-function doctorsRouterFactory ({ Router, affiliateController, appointmentService }) {
+function doctorsRouterFactory ({ Router, doctorController }) {
   const doctorsRouter = Router()
 
   doctorsRouter.post(
     '/doctors',
-    wrapAction(affiliateController.affiliate),
+    wrapAction(doctorController.affiliate),
   )
 
   doctorsRouter.post(
     '/doctors/:id/appointments',
-    wrapAction(appointmentService.createAppointment)
+    wrapAction(doctorController.createAppointment)
+  )
+
+  doctorsRouter.get(
+    '/doctors/:id/appointments',
+    wrapAction(doctorController.findAllAppointments)
   )
 
   return doctorsRouter

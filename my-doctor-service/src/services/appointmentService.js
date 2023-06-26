@@ -1,18 +1,14 @@
-export default function AppointmentServiceFactory({ appointmentCreate }) {
-  async function createAppointment({ body }) {
-    const { data } = body
+export default function AppointmentServiceFactory({ create, findAll }) {
+  async function createAppointment({ appointment }) {
+    return await create({ payload: JSON.stringify(appointment) })
+  }
 
-    const createdAppointment = await appointmentCreate({ appointment: { payload: JSON.stringify(data) } })
-
-    return {
-      body: {
-        data: createdAppointment,
-      },
-      statusCode: 201,
-    }
+  async function findAllAppointments({ params }) {
+    return await findAll({ params: JSON.stringify(params) })
   }
 
   return {
     createAppointment,
+    findAllAppointments,
   }
 }
