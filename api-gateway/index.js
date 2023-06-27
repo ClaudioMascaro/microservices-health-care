@@ -1,4 +1,4 @@
-import applicationFactory from './src/index.js'
+import applicationFactory from "./src/index.js"
 
 import modules from './src/modules/index.js'
 

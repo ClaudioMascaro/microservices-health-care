@@ -1,18 +1,16 @@
 import config from '../../config/index.js'
 
-import createLogger from './logger/logger.cjs'
+import loggerFactory from './logger/index.cjs'
 import postgresDatabaseFactory from './database/postgres/index.js'
-import grpcClientFactory from './grpc/index.js'
+import grpcServerFactory from './grpc/index.js'
 
 const { postgres } = config
 
-const { httpLogger, logger } = createLogger({ config })
+const logger = loggerFactory({ config })
 const postgresDatabase = postgresDatabaseFactory({ config: postgres, logger })
-const grpcClient = grpcClientFactory({ logger })
 
 export default {
-  httpLogger,
   logger,
   postgresDatabase,
-  grpcClient,
+  grpcServerFactory,
 }

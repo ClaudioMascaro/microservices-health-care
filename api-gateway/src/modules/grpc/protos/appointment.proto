@@ -1,12 +1,5 @@
 syntax = "proto3";
 
-package appointment;
-
-service AppointmentService {
-  rpc FindAllAppointments (AppointmentByDoctorId) returns (AppointmentList);
-  rpc CreateAppointment (AvailableAppointment) returns (AvailableAppointment);
-}
-
 message AppointmentByDoctorId {
   string params = 1;
 }
@@ -18,4 +11,9 @@ message AvailableAppointment {
 
 message AppointmentList {
   repeated AvailableAppointment appointments = 1;
+}
+
+service AppointmentService {
+  rpc FindAllAppointments (AppointmentByDoctorId) returns (AppointmentList);
+  rpc CreateAppointment (AvailableAppointment) returns (AvailableAppointment);
 }
