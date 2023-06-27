@@ -2,11 +2,22 @@ function affiliateDoctorFactory ({
   doctorRepository,
 }) {
   return async function execute ({
-    params,
-  }) {
+    request,
+  }, callback) {
     try {
-      return await doctorRepository.create({
+      const {
+        payload,
+      } = request
+
+      const params = JSON.parse(payload)
+
+      const createdDoctor = await doctorRepository.create({
         params,
+      })
+
+      return callback(null, {
+        id: createdDoctor.id,
+        payload: JSON.stringify(createdDoctor),
       })
     } catch (error) {
       throw new Error('todo')

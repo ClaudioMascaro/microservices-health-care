@@ -1,10 +1,22 @@
-import core from './core/index.js'
-
+import config from '../config/index.js'
 import modules from './modules/index.js'
+import httpServerFactory from './modules/http/server.js'
+import routesFactory from './modules/http/routes/index.js'
+import controllersFactory from './modules/http/controllers/index.js'
+import servicesFactory from './services/index.js'
 
-const { logger, grpcServerFactory, postgresDatabase } = modules
+const { logger, httpLogger, loadService } = modules
 
-const grpcServer = grpcServerFactory({ core, logger })
+const services = servicesFactory({ loadService, logger })
+const controllers = controllersFactory({ services })
+const routes = routesFactory({ controllers })
+
+const httpServer = httpServerFactory({
+  logger,
+  httpLogger,
+  config,
+  routes,
+})
 
 function applicationFactory () {
   async function start () {
@@ -13,8 +25,7 @@ function applicationFactory () {
         message: 'Starting application',
       })
 
-      await postgresDatabase.start()
-      grpcServer.start()
+      httpServer.start()
     } catch (error) {
       logger.error({
         message: 'Unexpected error starting application',
@@ -32,8 +43,7 @@ function applicationFactory () {
         message: 'Stopping application',
       })
 
-      await postgresDatabase.stop()
-      grpcServer.stop()
+      httpServer.stop()
     } catch (error) {
       logger.error(error)
     }

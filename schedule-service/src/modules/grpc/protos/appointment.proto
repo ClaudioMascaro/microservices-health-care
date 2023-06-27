@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-package appointment;
-
 service AppointmentService {
   rpc FindAllAppointments (AppointmentByDoctorId) returns (AppointmentList);
   rpc CreateAppointment (AvailableAppointment) returns (AvailableAppointment);

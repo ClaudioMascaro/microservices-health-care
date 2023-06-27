@@ -15,11 +15,11 @@ function grpcServerFactory ({ core, logger }) {
     oneofs: true,
   })
 
-  const { appointment } = grpc.loadPackageDefinition(packageDefinition)
+  const proto = grpc.loadPackageDefinition(packageDefinition)
 
   const server = new grpc.Server()
 
-  server.addService(appointment.AppointmentService.service, core)
+  server.addService(proto.AppointmentService.service, core)
 
   async function start () {
     server.bindAsync(

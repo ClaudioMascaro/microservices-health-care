@@ -4,9 +4,9 @@ import path from 'path'
 
 const dirname = path.dirname(new URL(import.meta.url).pathname)
 
-const PROTO_PATH = path.join(dirname, './protos/appointment.proto')
+const PROTO_PATH = path.join(dirname, './protos/doctor.proto')
 
-export default function grpcClientFactory ({ logger }) {
+function grpcServerFactory ({ core, logger }) {
   const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     keepCase: true,
     longs: String,
@@ -15,46 +15,38 @@ export default function grpcClientFactory ({ logger }) {
     oneofs: true,
   })
 
-  const appointmentProto = grpc.loadPackageDefinition(packageDefinition).appointment
+  const proto = grpc.loadPackageDefinition(packageDefinition)
 
-  const client = new appointmentProto.AppointmentService('localhost:50051', grpc.credentials.createInsecure())
+  const server = new grpc.Server()
 
-  async function createAppointment (appointment) {
-    return new Promise((resolve, reject) => {
-      client.CreateAppointment(appointment, (error, response) => {
-        if (error) {
-          logger.error({
-            message: 'Unexpected error creating appointment',
-            error: error.message,
-            stack: error.stack?.split('\n'),
-          })
-          reject(error)
-        }
+  server.addService(proto.DoctorService.service, core)
 
-        resolve({ id: response.id, payload: JSON.parse(response.payload) })
-      })
+  async function start () {
+    server.bindAsync(
+      '0.0.0.0:50052',
+      grpc.ServerCredentials.createInsecure(),
+      () => {
+        server.start()
+      },
+    )
+
+    logger.info({
+      message: 'gRPC server started',
     })
   }
 
-  async function findAllAppointments (params) {
-    return new Promise((resolve, reject) => {
-      client.FindAllAppointments(params, (error, { appointments }) => {
-        if (error) {
-          logger.error({
-            message: 'Unexpected error finding appointments',
-            error: error.message,
-            stack: error.stack?.split('\n'),
-          })
-          reject(error)
-        }
+  async function stop () {
+    server.forceShutdown()
 
-        resolve(appointments.map(({ id, payload }) => ({ id, payload: JSON.parse(payload) })))
-      })
+    logger.info({
+      message: 'gRPC server stopped',
     })
   }
 
   return {
-    createAppointment,
-    findAllAppointments,
+    start,
+    stop,
   }
 }
+
+export default grpcServerFactory
