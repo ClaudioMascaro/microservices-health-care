@@ -7,7 +7,7 @@ import servicesFactory from './services/index.js'
 
 const { logger, httpLogger, loadService } = modules
 
-const services = servicesFactory({ loadService, logger })
+const services = servicesFactory({ config, loadService, logger })
 const controllers = controllersFactory({ services })
 const routes = routesFactory({ controllers })
 

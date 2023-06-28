@@ -1,0 +1,87 @@
+version: '3.0'
+
+services:
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: development      
+    container_name: api_gateway
+    working_dir: /code
+    command: "npm run start:dev"
+    volumes:
+      - ./api-gateway/:/code
+      - /code/node_modules
+    ports:
+      - "3000:3000"
+    expose: 
+      - 3000
+    links:
+      - doctor-service
+      - appointment-service
+    networks: 
+      - health_network
+
+  doctor-service:
+    build:
+      context: ./my-doctor-service
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
+    container_name: doctor_service
+    hostname: localhost
+    working_dir: /code
+    command: "npm run start:dev"
+    volumes:
+      - ./my-doctor-service/:/code
+      - /code/node_modules
+    ports:
+      - "50052:50051"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    networks: 
+      - health_network
+
+  appointment-service:
+    build:
+      context: ./schedule-service
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
+    container_name: appointment_service
+    hostname: localhost
+    working_dir: /code
+    command: "npm run start:dev"
+    volumes:
+      - ./schedule-service/:/code
+      - /code/node_modules
+    ports:
+      - "50051:50051"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    networks: 
+      - health_network
+
+  postgres:
+    container_name: postgres
+    hostname: localhost
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+       - "5432:5432"
+    expose: 
+      - 5432
+    networks: 
+      - health_network
+
+networks:
+  health_network:
+    driver: bridge

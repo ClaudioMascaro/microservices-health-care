@@ -8,9 +8,11 @@ const { postgres } = config
 
 const logger = loggerFactory({ config })
 const postgresDatabase = postgresDatabaseFactory({ config: postgres, logger })
+const grpcServer = grpcServerFactory({ config })
 
 export default {
   logger,
   postgresDatabase,
   grpcServerFactory,
+  grpcServer,
 }

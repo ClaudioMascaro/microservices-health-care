@@ -1,8 +1,10 @@
-export default function DoctorServiceFactory ({ loadService, logger }) {
+export default function DoctorServiceFactory ({ config, loadService, logger }) {
+  const { doctorService: doctorServiceConfig } = config.services
+
   const DoctorService = loadService({
     serviceName: 'DoctorService',
     fileName: 'doctor',
-    address: 'localhost:50052',
+    address: `${doctorServiceConfig.host}:${doctorServiceConfig.port}`,
   })
 
   logger.info({

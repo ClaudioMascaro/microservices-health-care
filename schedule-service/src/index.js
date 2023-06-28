@@ -2,12 +2,11 @@
 // it will communicate via gRPC with the main server
 // it will also communicate with the database
 // it will use js module
-
 import core from './core/index.js'
 
 import modules from './modules/index.js'
 
-const { logger, grpcServerFactory, postgresDatabase } = modules
+const { logger, grpcServer: grpcServerFactory, postgresDatabase } = modules
 
 const grpcServer = grpcServerFactory({ core, logger })
 
