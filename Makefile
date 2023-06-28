@@ -10,16 +10,11 @@ migrate:
 setup-db: database migrate
 .PHONY: setup-db
 
-api-gateway:
-	@docker-compose up -d --build api-gateway
+run-services:
+	@docker-compose up -d --build appointment-service doctor-service api-gateway
+.PHONY: run-services
 
-doctor-service:
-	@docker-compose up -d --build doctor-service
-
-appointment-service:
-	@docker-compose up -d --build appointment-service
-
-prepare: setup-db doctor-service appointment-service api-gateway
+prepare: setup-db run-services
 
 purge-all:
 	@docker ps -aq | xargs docker stop
