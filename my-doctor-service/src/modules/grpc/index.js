@@ -6,7 +6,9 @@ const dirname = path.dirname(new URL(import.meta.url).pathname)
 
 const PROTO_PATH = path.join(dirname, './protos/doctor.proto')
 
-function grpcServerFactory ({ core, logger }) {
+function grpcServerFactory ({ config, core, logger }) {
+  const { grpc: grpcConfig } = config
+
   const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     keepCase: true,
     longs: String,
@@ -23,7 +25,7 @@ function grpcServerFactory ({ core, logger }) {
 
   async function start () {
     server.bindAsync(
-      '0.0.0.0:50052',
+      `0.0.0.0:${grpcConfig.port}`,
       grpc.ServerCredentials.createInsecure(),
       () => {
         server.start()

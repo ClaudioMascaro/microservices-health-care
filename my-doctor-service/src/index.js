@@ -1,10 +1,10 @@
 import core from './core/index.js'
-
+import config from '../config/index.js'
 import modules from './modules/index.js'
 
 const { logger, grpcServerFactory, postgresDatabase } = modules
 
-const grpcServer = grpcServerFactory({ core, logger })
+const grpcServer = grpcServerFactory({ config, core, logger })
 
 function applicationFactory () {
   async function start () {
