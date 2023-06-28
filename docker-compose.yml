@@ -37,7 +37,7 @@ services:
       - ./doctor-service/:/code
       - /code/node_modules
     ports:
-      - "50052:50051"
+      - "50051"
     depends_on:
       - postgres
     links:
@@ -59,7 +59,7 @@ services:
       - ./appointment-service/:/code
       - /code/node_modules
     ports:
-      - "50051:50051"
+      - "50051"
     depends_on:
       - postgres
     links:
