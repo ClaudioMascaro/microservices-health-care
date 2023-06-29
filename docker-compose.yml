@@ -23,6 +23,30 @@ services:
     networks: 
       - health_network
 
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
+    container_name: auth_service
+    hostname: localhost
+    working_dir: /code
+    command: "npm run start:dev"
+    volumes:
+      - ./auth-service/:/code
+      - /code/node_modules
+    ports:
+      - "50051"
+    depends_on:
+      - postgres
+      - dynamodb
+    links:
+      - postgres
+      - dynamodb
+    networks: 
+      - health_network      
+
   doctor-service:
     build:
       context: ./doctor-service
@@ -66,6 +90,17 @@ services:
       - postgres
     networks: 
       - health_network
+
+  dynamodb:
+    image: amazon/dynamodb-local
+    container_name: dynamodb
+    networks:
+      - health_network
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-inMemory"]
+    ports:
+      - "8000:8000"
+    expose:
+      - 8000
 
   postgres:
     container_name: postgres

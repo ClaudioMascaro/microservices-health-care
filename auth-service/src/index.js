@@ -2,7 +2,11 @@ import core from './core/index.js'
 
 import modules from './modules/index.js'
 
-const { logger, grpcServer: grpcServerFactory, postgresDatabase } = modules
+const {
+  logger,
+  grpcServer: grpcServerFactory,
+  postgresDatabase,
+} = modules
 
 const grpcServer = grpcServerFactory({ core, logger })
 
@@ -12,9 +16,7 @@ function applicationFactory () {
       logger.info({
         message: 'Starting application',
       })
-
       await postgresDatabase.start()
-
       await grpcServer.start()
     } catch (error) {
       logger.error({

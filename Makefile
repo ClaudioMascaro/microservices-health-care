@@ -1,5 +1,5 @@
 database:
-	@docker-compose up -d postgres
+	@docker-compose up -d postgres dynamodb
 	@sleep 3
 .PHONY: database
 
@@ -11,7 +11,7 @@ setup-db: database migrate
 .PHONY: setup-db
 
 run-services:
-	@docker-compose up -d --build appointment-service doctor-service api-gateway
+	@docker-compose up -d --build appointment-service doctor-service auth-service api-gateway
 .PHONY: run-services
 
 prepare: setup-db run-services

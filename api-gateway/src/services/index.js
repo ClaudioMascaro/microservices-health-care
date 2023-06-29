@@ -1,5 +1,6 @@
 import AppointmentServiceFactory from './appointmentService.js'
 import DoctorServiceFactory from './doctorService.js'
+import AuthenticationServiceFactory from './authService.js'
 
 export default function servicesFactory ({ config, loadService, logger }) {
   const AppointmentService = AppointmentServiceFactory({
@@ -14,8 +15,15 @@ export default function servicesFactory ({ config, loadService, logger }) {
     logger,
   })
 
+  const AuthenticationService = AuthenticationServiceFactory({
+    config,
+    loadService,
+    logger,
+  })
+
   return {
     AppointmentService,
     DoctorService,
+    AuthenticationService,
   }
 }

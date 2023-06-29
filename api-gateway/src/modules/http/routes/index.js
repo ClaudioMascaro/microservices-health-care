@@ -4,7 +4,17 @@ import wrapAction from '../wrapAction.js'
 export default function routerFactory ({ controllers }) {
   const router = Router()
 
-  const { doctorController, appointmentController } = controllers
+  const { doctorController, appointmentController, userController } = controllers
+
+  router.post(
+    '/users',
+    wrapAction(userController.create),
+  )
+
+  router.post(
+    '/users/authenticate',
+    wrapAction(userController.authenticate),
+  )
 
   router.post(
     '/doctors',
