@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+service UserService {
+  rpc CreateUser (User) returns (User);
+  rpc FindUser (User) returns (User);
+}
+
+message User {
+  optional string payload = 1;
+  optional string error = 2;
+}
+
+message Session {
+  optional string payload = 1;
+  optional string error = 2;
+}

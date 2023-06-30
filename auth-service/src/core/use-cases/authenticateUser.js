@@ -15,7 +15,12 @@ class InvalidPassword extends Error {
   }
 }
 
-export default function authenticateUserFactory ({ userRepository, keyRepository, encrypter }) {
+export default function authenticateUserFactory ({
+  UserService,
+  KeyService,
+  sessionRepository,
+  encrypter,
+}) {
   return async function execute ({ request }, callback) {
     const {
       payload,
@@ -27,7 +32,13 @@ export default function authenticateUserFactory ({ userRepository, keyRepository
       keepSigned = false,
     } = JSON.parse(payload)
 
-    const user = await userRepository.findByUserName({ userName })
+    const {
+      payload: userPayload,
+    } = await UserService.findUser({
+      payload: JSON.stringify({ userName }),
+    })
+
+    const user = JSON.parse(userPayload)
 
     if (!user) {
       return callback(null, {
@@ -40,7 +51,11 @@ export default function authenticateUserFactory ({ userRepository, keyRepository
       password: encryptedPassword,
     } = user
 
-    const { encryptionKey } = await keyRepository.find({ userId })
+    const { payload: keyPayload } = await KeyService.findKey({
+      payload: JSON.stringify({ userId }),
+    })
+
+    const { encryptionKey } = JSON.parse(keyPayload)
 
     const decryptedPassword = encrypter.decrypt({
       encryptedText: encryptedPassword,
@@ -53,11 +68,15 @@ export default function authenticateUserFactory ({ userRepository, keyRepository
       })
     }
 
+    const createdSession = await sessionRepository.create({
+      userId,
+      keepSigned,
+    })
+
+    const { id } = createdSession
+
     return callback(null, {
-      payload: JSON.stringify({
-        keepSigned,
-        userId,
-      }),
+      payload: JSON.stringify({ sessionId: id }),
     })
   }
 }

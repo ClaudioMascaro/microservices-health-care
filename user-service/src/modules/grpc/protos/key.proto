@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+service KeyService {
+  rpc CreateKey (Key) returns (Key);
+  rpc FindKey (Key) returns (Key);
+}
+
+message Key {
+  optional string payload = 1;
+  optional string error = 2;
+}

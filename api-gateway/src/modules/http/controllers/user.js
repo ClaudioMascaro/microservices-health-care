@@ -1,9 +1,9 @@
-export default function userControllerFactory ({ AuthenticationService }) {
+export default function userControllerFactory ({ UserService, AuthenticationService }) {
   async function create ({ body }) {
     const {
       payload = null,
       error = null,
-    } = await AuthenticationService.createUser({
+    } = await UserService.createUser({
       payload: JSON.stringify(body),
     })
 
@@ -31,26 +31,12 @@ export default function userControllerFactory ({ AuthenticationService }) {
     if (error) {
       return {
         body: JSON.parse(error),
-        statusCode: 401,
-      }
-    }
-
-    const {
-      payload: sessionPayload = null,
-      error: sessionError = null,
-    } = await AuthenticationService.createSession({
-      payload,
-    })
-
-    if (sessionError) {
-      return {
-        body: JSON.parse(sessionError),
-        statusCode: 401,
+        statusCode: 400,
       }
     }
 
     return {
-      body: JSON.parse(sessionPayload),
+      body: JSON.parse(payload),
       statusCode: 200,
     }
   }

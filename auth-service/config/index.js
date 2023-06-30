@@ -4,6 +4,7 @@ import env from './env.js'
 import dynamo from './dynamo.js'
 import grpc from './grpc.js'
 import session from './session.js'
+import services from './services/index.js'
 
 const isProd = env.NODE_ENV === 'production'
 
@@ -15,4 +16,5 @@ export default {
   grpc,
   session,
   isProd,
+  services,
 }

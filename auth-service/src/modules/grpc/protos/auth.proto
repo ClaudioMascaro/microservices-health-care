@@ -1,9 +1,7 @@
 syntax = "proto3";
 
 service AuthenticationService {
-  rpc CreateUser (User) returns (User);
   rpc AuthenticateUser (User) returns (User);
-  rpc CreateSession (Session) returns (Session);
   rpc ValidateSession (Session) returns (Session);
 }
 

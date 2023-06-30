@@ -1,44 +1,37 @@
+import config from '../../config/index.js'
 import modules from '../modules/index.js'
-import userRepositoryFactory from './repositories/userRepository.js'
 import sessionRepositoryFactory from './repositories/sessionRepository.js'
-import keyRepositoryFactory from './repositories/keyRepository.js'
 
-import createUserFactory from './use-cases/createUser.js'
+import servicesFactory from '../services/index.js'
+
 import authenticateUserFactory from './use-cases/authenticateUser.js'
-import createSessionFactory from './use-cases/createSession.js'
 import validateSessionFactory from './use-cases/validateSession.js'
 
 const {
-  postgresDatabase, encrypter, dynamoDb,
-} = modules
-
-const keyRepository = keyRepositoryFactory({
-  dynamoDb,
-})
-
-const userRepository = userRepositoryFactory({
   postgresDatabase,
   encrypter,
+  loadService,
+  logger,
+} = modules
+
+const {
+  KeyService,
+  UserService,
+} = servicesFactory({
+  config,
+  logger,
+  loadService,
 })
 
 const sessionRepository = sessionRepositoryFactory({
   postgresDatabase,
 })
 
-const createUser = createUserFactory({
-  userRepository,
-  keyRepository,
-  encrypter,
-})
-
 const authenticateUser = authenticateUserFactory({
-  userRepository,
-  keyRepository,
-  encrypter,
-})
-
-const createSession = createSessionFactory({
+  UserService,
+  KeyService,
   sessionRepository,
+  encrypter,
 })
 
 const validateSession = validateSessionFactory({
@@ -46,8 +39,6 @@ const validateSession = validateSessionFactory({
 })
 
 export default {
-  createUser,
   authenticateUser,
-  createSession,
   validateSession,
 }

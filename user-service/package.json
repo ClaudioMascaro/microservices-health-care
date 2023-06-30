@@ -1,0 +1,32 @@
+{
+  "name": "user-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "migrate": ". ./config/development.env; node_modules/.bin/sequelize db:migrate",
+    "start:dev": ". ./config/development.env; nodemon --watch . --exec \"node --inspect=0.0.0.0:9239 index.js\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.js\" --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.8.16",
+    "@grpc/proto-loader": "^0.7.7",
+    "crypto-js": "^4.1.1",
+    "dynamoose": "2.3.0",
+    "escriba": "^2.11.0",
+    "log4js": "^6.9.1",
+    "pg": "^8.11.1",
+    "sequelize": "^6.32.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.43.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "nodemon": "^2.0.22",
+    "sequelize-cli": "^6.6.0"
+  }
+}

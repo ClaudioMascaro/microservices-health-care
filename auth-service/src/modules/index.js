@@ -3,6 +3,7 @@ import config from '../../config/index.js'
 import loggerFactory from './logger/index.cjs'
 import postgresDatabaseFactory from './database/postgres/index.js'
 import grpcServerFactory from './grpc/index.js'
+import loadService from './grpc/loadService.js'
 import dynamoDbFactory from './database/dynamodb/index.js'
 import encrypter from './encrypter/index.js'
 
@@ -17,6 +18,7 @@ export default {
   logger,
   postgresDatabase,
   grpcServer,
+  loadService,
   dynamoDb,
   encrypter: encrypter(),
 }
