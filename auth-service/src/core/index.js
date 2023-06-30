@@ -36,6 +36,7 @@ const authenticateUser = authenticateUserFactory({
 
 const validateSession = validateSessionFactory({
   sessionRepository,
+  config,
 })
 
 export default {

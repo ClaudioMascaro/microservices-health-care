@@ -12,14 +12,14 @@ export default function sessionRepositoryFactory ({ postgresDatabase }) {
     }
   }
 
-  async function findByUserId ({
-    userId,
+  async function findBySessionId ({
+    sessionId,
   }) {
     try {
       return await Sessions.findOne({
         raw: true,
         where: {
-          userId,
+          id: sessionId,
         },
         order: [['createdAt', 'DESC']],
 
@@ -31,6 +31,6 @@ export default function sessionRepositoryFactory ({ postgresDatabase }) {
 
   return {
     create,
-    findByUserId,
+    findBySessionId,
   }
 }

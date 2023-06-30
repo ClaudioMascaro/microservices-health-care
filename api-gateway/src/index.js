@@ -3,13 +3,15 @@ import modules from './modules/index.js'
 import httpServerFactory from './modules/http/server.js'
 import routesFactory from './modules/http/routes/index.js'
 import controllersFactory from './modules/http/controllers/index.js'
+import middlewaresFactory from './modules/http/middlewares/index.js'
 import servicesFactory from './services/index.js'
 
 const { logger, httpLogger, loadService } = modules
 
 const services = servicesFactory({ config, loadService, logger })
 const controllers = controllersFactory({ services })
-const routes = routesFactory({ controllers })
+const middlewares = middlewaresFactory({ services })
+const routes = routesFactory({ controllers, middlewares })
 
 const httpServer = httpServerFactory({
   logger,
