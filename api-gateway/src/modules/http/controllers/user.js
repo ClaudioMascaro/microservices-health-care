@@ -1,4 +1,8 @@
-export default function userControllerFactory ({ UserService, AuthenticationService }) {
+export default function userControllerFactory ({
+  UserService,
+  AuthenticationService,
+  errorHandler,
+}) {
   async function create ({ body }) {
     const {
       payload = null,
@@ -8,10 +12,7 @@ export default function userControllerFactory ({ UserService, AuthenticationServ
     })
 
     if (error) {
-      return {
-        body: JSON.parse(error),
-        statusCode: 400,
-      }
+      return errorHandler(error)
     }
 
     return {
@@ -29,10 +30,7 @@ export default function userControllerFactory ({ UserService, AuthenticationServ
     })
 
     if (error) {
-      return {
-        body: JSON.parse(error),
-        statusCode: 400,
-      }
+      return errorHandler(error)
     }
 
     return {

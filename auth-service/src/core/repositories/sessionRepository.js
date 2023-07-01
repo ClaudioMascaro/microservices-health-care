@@ -5,32 +5,35 @@ export default function sessionRepositoryFactory ({ postgresDatabase }) {
     userId,
     keepSigned,
   }) {
-    try {
-      return Sessions.create({ userId, keepSigned })
-    } catch (error) {
-      throw new Error('todo')
-    }
+    return Sessions.create({ userId, keepSigned })
   }
 
   async function findBySessionId ({
     sessionId,
   }) {
-    try {
-      return await Sessions.findOne({
-        raw: true,
-        where: {
-          id: sessionId,
-        },
-        order: [['createdAt', 'DESC']],
+    return Sessions.findOne({
+      raw: true,
+      where: {
+        id: sessionId,
+      },
+      order: [['createdAt', 'DESC']],
 
-      })
-    } catch (error) {
-      throw new Error('todo')
-    }
+    })
+  }
+
+  async function deleteBySessionId ({
+    sessionId,
+  }) {
+    return Sessions.destroy({
+      where: {
+        id: sessionId,
+      },
+    })
   }
 
   return {
     create,
     findBySessionId,
+    deleteBySessionId,
   }
 }

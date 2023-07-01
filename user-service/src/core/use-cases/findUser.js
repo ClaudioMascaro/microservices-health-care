@@ -1,11 +1,4 @@
-/* eslint-disable max-classes-per-file */
-class UserNotFound extends Error {
-  constructor (...args) {
-    super(...args)
-    this.message = 'User not found'
-    Error.captureStackTrace(this, UserNotFound)
-  }
-}
+import UserNotFound from '../../../errors/User/UserNotFound.js'
 
 export default function findUserFactory ({ userRepository }) {
   return async function execute ({ request }, callback) {
@@ -21,7 +14,7 @@ export default function findUserFactory ({ userRepository }) {
 
     if (!user) {
       return callback(null, {
-        error: JSON.stringify(new UserNotFound()),
+        error: JSON.stringify(new UserNotFound('User not found')),
       })
     }
 

@@ -1,6 +1,7 @@
 import doctorControllerFactory from './doctor.js'
 import appointmentControllerFactory from './appointment.js'
 import userControllerFactory from './user.js'
+import errorHandler from '../../error/errorHandler.js'
 
 export default function controllersFactory ({ services }) {
   const {
@@ -10,9 +11,9 @@ export default function controllersFactory ({ services }) {
     UserService,
   } = services
 
-  const doctorController = doctorControllerFactory({ DoctorService })
-  const appointmentController = appointmentControllerFactory({ AppointmentService })
-  const userController = userControllerFactory({ UserService, AuthenticationService })
+  const doctorController = doctorControllerFactory({ DoctorService, errorHandler })
+  const appointmentController = appointmentControllerFactory({ AppointmentService, errorHandler })
+  const userController = userControllerFactory({ UserService, AuthenticationService, errorHandler })
 
   return {
     doctorController,

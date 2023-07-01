@@ -1,56 +1,59 @@
-class SessionNotFound extends Error {
-  constructor (...args) {
-    super(...args)
-    this.message = 'Session not found'
-    Error.captureStackTrace(this, SessionNotFound)
-  }
-}
+import InvalidSession from '../../../errors/Auth/InvalidSession.js'
 
 export default function validateSessionFactory ({ sessionRepository, config }) {
-  const validateSession = (session) => {
-    if (!session) {
-      return null
-    }
-
-    if (session.keepSigned) {
-      return session
-    }
-
-    const { duration: sessionDuration } = config.session
-
-    const sessionExpired = new Date(session.createdAt)
-      .getTime() + sessionDuration < new Date().getTime()
-
-    if (sessionExpired) {
-      return null
-    }
-
-    return session
-  }
-
   return async function execute ({ request }, callback) {
-    const {
-      payload,
-    } = request
+    try {
+      const validateSession = async (session) => {
+        if (!session) {
+          return null
+        }
 
-    const {
-      sessionId,
-    } = JSON.parse(payload)
+        if (session.keepSigned) {
+          return session
+        }
 
-    const session = await sessionRepository.findBySessionId({
-      sessionId,
-    })
+        const { duration: sessionDuration } = config.session
 
-    const validatedSession = validateSession(session)
+        const sessionExpired = new Date(session.createdAt)
+          .getTime() + sessionDuration < new Date().getTime()
 
-    if (!validatedSession) {
+        if (sessionExpired) {
+          await sessionRepository.deleteBySessionId({
+            sessionId: session.id,
+          })
+          return null
+        }
+
+        return session
+      }
+
+      const {
+        payload,
+      } = request
+
+      const {
+        sessionId = null,
+      } = JSON.parse(payload)
+
+      const session = await sessionRepository.findBySessionId({
+        sessionId,
+      })
+
+      const validatedSession = await validateSession(session)
+
+      if (!validatedSession) {
+        return callback(null, {
+          error: JSON.stringify(new InvalidSession('Invalid session')),
+        })
+      }
+
       return callback(null, {
-        error: JSON.stringify(new SessionNotFound()),
+        payload: JSON.stringify(validatedSession),
+      })
+    } catch (error) {
+      return callback(null, {
+        error: JSON.stringify(error),
       })
     }
-
-    return callback(null, {
-      payload: JSON.stringify(validatedSession),
-    })
   }
 }

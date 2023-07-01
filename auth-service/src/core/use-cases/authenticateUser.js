@@ -1,19 +1,4 @@
-/* eslint-disable max-classes-per-file */
-class UserNotFound extends Error {
-  constructor (...args) {
-    super(...args)
-    this.message = 'User not found'
-    Error.captureStackTrace(this, UserNotFound)
-  }
-}
-
-class InvalidPassword extends Error {
-  constructor (...args) {
-    super(...args)
-    this.message = 'Invalid password'
-    Error.captureStackTrace(this, InvalidPassword)
-  }
-}
+import InvalidPassword from '../../../errors/Auth/InvalidPassword.js'
 
 export default function authenticateUserFactory ({
   UserService,
@@ -32,18 +17,19 @@ export default function authenticateUserFactory ({
     } = JSON.parse(payload)
 
     const {
-      payload: userPayload,
+      payload: userPayload = null,
+      error = null,
     } = await UserService.findUser({
       payload: JSON.stringify({ userName }),
     })
 
-    const user = JSON.parse(userPayload)
-
-    if (!user) {
+    if (error) {
       return callback(null, {
-        error: JSON.stringify(new UserNotFound()),
+        error,
       })
     }
+
+    const user = JSON.parse(userPayload)
 
     const {
       id: userId,
@@ -59,7 +45,7 @@ export default function authenticateUserFactory ({
 
     if (!isPasswordValid) {
       return callback(null, {
-        error: JSON.stringify(new InvalidPassword()),
+        error: JSON.stringify(new InvalidPassword('Invalid password error')),
       })
     }
 

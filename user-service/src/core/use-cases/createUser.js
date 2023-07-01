@@ -1,3 +1,6 @@
+import UserAlreadyExists from '../../../errors/User/UserAlreadyExists.js'
+import InternalError from '../../../errors/Internal.js'
+
 export default function createUserFactory ({
   userRepository,
   encrypter,
@@ -36,16 +39,12 @@ export default function createUserFactory ({
     } catch (error) {
       if (error.name === 'SequelizeUniqueConstraintError') {
         return callback(null, {
-          error: JSON.stringify({
-            message: 'User or email already exists',
-          }),
+          error: JSON.stringify(new UserAlreadyExists('User already exists')),
         })
       }
 
       return callback(null, {
-        error: JSON.stringify({
-          message: 'Internal server error',
-        }),
+        error: JSON.stringify(new InternalError('Internal error')),
       })
     }
   }
