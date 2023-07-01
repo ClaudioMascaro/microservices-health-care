@@ -39,6 +39,25 @@ In addition, you can run the following:
 
 ## **Resources**
 
+POST `localhost:3000/users`
+```json
+{
+	"userName": "johndoe123",
+	"email": "johndoe123@email.com",
+	"password": "12345678"
+}
+```
+
+POST `localhost:3000/users/authenticate`
+```json
+{
+	"userName": "johndoe123",
+	"password": "12345678"
+}
+```
+
+use sessionId to set `Authorization` header (Bearer token)
+
 POST `localhost:3000/doctors`
 
 body:
