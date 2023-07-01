@@ -4,9 +4,15 @@ export default function userRepositoryFactory ({ postgresDatabase }) {
   async function create ({
     userName,
     email,
-    password,
+    passwordHash,
+    passwordSalt,
   }) {
-    return Users.create({ userName, email, password })
+    return Users.create({
+      userName,
+      email,
+      passwordHash,
+      passwordSalt,
+    })
   }
 
   async function findByUserName ({

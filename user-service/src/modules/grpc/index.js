@@ -48,33 +48,7 @@ const grpcServerFactory = ({ config }) => ({ core, logger }) => {
   return {
     start,
     stop,
-    loadService,
   }
 }
-
-function loadService ({
-  serviceName,
-  fileName,
-  address,
-  credentials = grpc.credentials.createInsecure(),
-}) {
-  const protoDef = protoLoader.loadSync(
-    path.join(dirname, `./protos/${fileName}.proto`),
-    protoConfig,
-  )
-
-  const proto = grpc.loadPackageDefinition(protoDef)
-
-  const client = new proto[serviceName](address, credentials)
-
-  Object.entries(client.__proto__).map(([prop, value]) => {
-    if (value.originalName !== undefined) {
-      client[prop] = promisify(value)
-    }
-  })
-
-  return client
-} 
-
 
 export default grpcServerFactory

@@ -5,7 +5,7 @@ import postgresDatabaseFactory from './database/postgres/index.js'
 import grpcServerFactory from './grpc/index.js'
 import loadService from './grpc/loadService.js'
 import dynamoDbFactory from './database/dynamodb/index.js'
-import encrypter from './encrypter/index.js'
+import encrypter from '../../encrypter/index.js'
 
 const { postgres } = config
 

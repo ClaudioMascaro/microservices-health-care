@@ -17,7 +17,6 @@ class InvalidPassword extends Error {
 
 export default function authenticateUserFactory ({
   UserService,
-  KeyService,
   sessionRepository,
   encrypter,
 }) {
@@ -48,21 +47,17 @@ export default function authenticateUserFactory ({
 
     const {
       id: userId,
-      password: encryptedPassword,
+      passwordHash,
+      passwordSalt,
     } = user
 
-    const { payload: keyPayload } = await KeyService.findKey({
-      payload: JSON.stringify({ userId }),
+    const isPasswordValid = encrypter.compare({
+      passwordHash,
+      passwordSalt,
+      password,
     })
 
-    const { encryptionKey } = JSON.parse(keyPayload)
-
-    const decryptedPassword = encrypter.decrypt({
-      encryptedText: encryptedPassword,
-      encryptionKey,
-    })
-
-    if (decryptedPassword !== password) {
+    if (!isPasswordValid) {
       return callback(null, {
         error: JSON.stringify(new InvalidPassword()),
       })

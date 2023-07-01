@@ -1,7 +1,0 @@
-const path = require('path')
-
-module.exports = {
-  'config': path.resolve(__dirname, 'config', 'database', 'postgres.js'),
-  'migrations-path': path.resolve(__dirname, 'infrastructure', 'postgres', 'migrations'),
-  'seeders-path': path.resolve(__dirname, 'infrastructure', 'postgres', 'seeders'),
-}

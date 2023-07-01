@@ -1,4 +1,7 @@
-export default function createUserFactory ({ userRepository, KeyService, encrypter }) {
+export default function createUserFactory ({
+  userRepository,
+  encrypter,
+}) {
   return async function execute ({ request }, callback) {
     try {
       const {
@@ -11,20 +14,14 @@ export default function createUserFactory ({ userRepository, KeyService, encrypt
         password,
       } = JSON.parse(payload)
 
-      const encryptionKey = encrypter.generateEncryptionKey()
-      const encryptedPassword = await encrypter.encrypt({ password, encryptionKey })
+      const salt = encrypter.generateRandomKey()
+      const encryptedPassword = await encrypter.encrypt({ password, salt })
 
       const createdUser = await userRepository.create({
         userName,
         email,
-        password: encryptedPassword,
-      })
-
-      await KeyService.createKey({
-        payload: JSON.stringify({
-          userId: createdUser.id,
-          encryptionKey,
-        }),
+        passwordHash: encryptedPassword,
+        passwordSalt: salt,
       })
 
       return callback(null, {

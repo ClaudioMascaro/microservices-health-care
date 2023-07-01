@@ -40,11 +40,9 @@ services:
       - "50051"
     depends_on:
       - postgres
-      - key-service
       - user-service
     links:
       - postgres
-      - key-service
       - user-service
     networks: 
       - health_network
@@ -66,32 +64,8 @@ services:
       - "50051"
     depends_on:
       - postgres
-      - key-service
     links:
       - postgres
-      - key-service
-    networks: 
-      - health_network
-
-  key-service:
-    build:
-      context: ./key-service
-      dockerfile: Dockerfile
-      args:
-        NODE_ENV: development
-    container_name: key_service
-    hostname: localhost
-    working_dir: /code
-    command: "npm run start:dev"
-    volumes:
-      - ./key-service/:/code
-      - /code/node_modules
-    ports:
-      - "50051"
-    depends_on:
-      - dynamodb
-    links:
-      - dynamodb
     networks: 
       - health_network
 

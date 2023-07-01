@@ -15,7 +15,6 @@ const {
 } = modules
 
 const {
-  KeyService,
   UserService,
 } = servicesFactory({
   config,
@@ -29,7 +28,6 @@ const sessionRepository = sessionRepositoryFactory({
 
 const authenticateUser = authenticateUserFactory({
   UserService,
-  KeyService,
   sessionRepository,
   encrypter,
 })

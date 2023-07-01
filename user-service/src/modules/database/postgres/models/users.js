@@ -19,7 +19,11 @@ const attributes = {
     allowNull: false,
     unique: true,
   },
-  password: {
+  passwordHash: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  passwordSalt: {
     type: DataTypes.STRING,
     allowNull: false,
   },

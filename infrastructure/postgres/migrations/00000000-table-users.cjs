@@ -18,10 +18,14 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      password: {
+      passwordHash: {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      passwordSalt: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },      
       createdAt: {
         type: DataTypes.DATE,
       },
