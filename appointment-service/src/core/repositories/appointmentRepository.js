@@ -8,19 +8,19 @@ const buildQuery = (startDate, endDate, doctorId) => {
   const getStartTimeRange = () => {
     if (!startDate) {
       return {
-        [Op.lte]: new Date(endDate),
+        [Op.lte]: new Date(Number(endDate)),
       }
     }
 
     if (!endDate) {
       return {
-        [Op.gte]: new Date(startDate),
+        [Op.gte]: new Date(Number(startDate)),
       }
     }
 
     return {
-      [Op.gte]: new Date(startDate),
-      [Op.lte]: new Date(endDate),
+      [Op.gte]: new Date(Number(startDate)),
+      [Op.lte]: new Date(Number(endDate)),
     }
   }
 

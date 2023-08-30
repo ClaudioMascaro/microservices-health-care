@@ -24,6 +24,7 @@ function createAppointmentFactory ({ appointmentRepository, logger }) {
           appointment_time: appointmentTime,
         },
       })
+      console.log('🚀 ~ file: createAppointment.js:27 ~ execute ~ createdAppointment:', createdAppointment)
 
       logger.info({
         message: 'Appointment created',

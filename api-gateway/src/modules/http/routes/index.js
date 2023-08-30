@@ -30,9 +30,9 @@ export default function routerFactory ({ controllers, middlewares }) {
   )
 
   router.get(
-    '/doctors/:id/appointments',
+    '/doctors/:id/appointments/available',
     validateSession,
-    wrapAction(appointmentController.list),
+    wrapAction(appointmentController.findAvailable),
   )
 
   return router

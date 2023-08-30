@@ -2,6 +2,7 @@ syntax = "proto3";
 
 service AppointmentService {
   rpc FindAllAppointments (AppointmentByDoctorId) returns (AppointmentList);
+  rpc FindAvailableAppointments (AppointmentByDoctorId) returns (AppointmentList);
   rpc CreateAppointment (AvailableAppointment) returns (AvailableAppointment);
 }
 
@@ -10,8 +11,8 @@ message AppointmentByDoctorId {
 }
 
 message AvailableAppointment {
-  optional int32 id = 1;
-  optional string payload = 2;
+  int32 id = 1;
+  string payload = 2;
 }
 
 message AppointmentList {

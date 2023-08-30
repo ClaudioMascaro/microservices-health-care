@@ -9,8 +9,21 @@ function doctorRepositoryFactory ({ postgresDatabase }) {
     }
   }
 
+  async function findOneById ({ id }) {
+    try {
+      return await Doctors.findOne({
+        where: {
+          id,
+        },
+      })
+    } catch (error) {
+      throw new Error('todo')
+    }
+  }
+
   return {
     create,
+    findOneById,
   }
 }
 

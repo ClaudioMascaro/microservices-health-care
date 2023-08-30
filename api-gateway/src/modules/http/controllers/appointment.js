@@ -31,8 +31,25 @@ export default function appointmentControllerFactory ({ AppointmentService }) {
     }
   }
 
+  async function findAvailable ({ params, query }) {
+    const { id: doctorId } = params
+
+    const { appointments } = await AppointmentService.findAvailableAppointments({
+      params: JSON.stringify({
+        doctorId,
+        ...query,
+      }),
+    })
+
+    return {
+      body: appointments.map(({ payload }) => ({ ...JSON.parse(payload) })),
+      statusCode: 200,
+    }
+  }
+
   return {
     create,
     list,
+    findAvailable,
   }
 }
